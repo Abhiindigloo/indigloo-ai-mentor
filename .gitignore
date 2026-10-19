@@ -1,0 +1,28 @@
+# Secrets and signing
+.env
+*.jks
+*.keystore
+
+# Android / Gradle
+.gradle/
+**/build/
+local.properties
+*.apk
+*.aab
+
+# Python
+.venv/
+__pycache__/
+.pytest_cache/
+services/api/data/
+*.db
+*.db-*
+
+# Node
+node_modules/
+
+# Training outputs
+training/output/
+
+# Agent working notes
+.context/

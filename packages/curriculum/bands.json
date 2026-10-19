@@ -1,0 +1,35 @@
+{
+  "$comment": "Single source for age-band ids, personas, and grade ranges (ADR 0006). Kindergarten encoding TBD (ADR 0007 O16): koko may include grade 0 or only 1–5.",
+  "bands": [
+    {
+      "id": "koko",
+      "persona": "Koko",
+      "role": "Learning Guide",
+      "label_en": "Koko · K–5",
+      "label_hi": "कोको · के–5",
+      "min_grade": 0,
+      "max_grade": 5,
+      "grade_range_note": "K–5. Whether kindergarten is grade 0 or omitted is TBD (O16). Until then treat valid grades as 1–5 for content; schema allows 0–5."
+    },
+    {
+      "id": "nova",
+      "persona": "Nova",
+      "role": "Academic Coach",
+      "label_en": "Nova · 6–8",
+      "label_hi": "नोवा · 6–8",
+      "min_grade": 6,
+      "max_grade": 8,
+      "grade_range_note": "Grades 6–8"
+    },
+    {
+      "id": "principal",
+      "persona": "Principal",
+      "role": "Subject Matter Mentor",
+      "label_en": "Principal · 9–12",
+      "label_hi": "प्रिंसिपल · 9–12",
+      "min_grade": 9,
+      "max_grade": 12,
+      "grade_range_note": "Grades 9–12"
+    }
+  ]
+}

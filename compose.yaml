@@ -1,0 +1,21 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: services/api/Dockerfile
+    ports: ["127.0.0.1:8000:8000"]
+    env_file: .env
+    environment:
+      # Trust X-Forwarded-For from the Docker bridge only. Safe because the port is
+      # published on 127.0.0.1, so only a reverse proxy on this host can connect.
+      # If you publish on 0.0.0.0, set this to your proxy's exact IP instead.
+      FORWARDED_ALLOW_IPS: ${FORWARDED_ALLOW_IPS:-172.16.0.0/12}
+    volumes: ["mentor-data:/data"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+volumes:
+  mentor-data:

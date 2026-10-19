@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://indigloo.co/schemas/sync-event.schema.json",
+  "title": "Sync outbox event (draft)",
+  "description": "Stub until ADR 0007 O4 closes. HTTPS batched outbox push + cursor pull is the recommended direction.",
+  "type": "object",
+  "required": ["event_id", "type", "schema_version", "occurred_at", "payload"],
+  "properties": {
+    "event_id": { "type": "string", "format": "uuid" },
+    "type": {
+      "type": "string",
+      "enum": ["attempt", "progress", "fading_level", "turn_summary", "consent", "settings"]
+    },
+    "schema_version": { "type": "integer", "minimum": 1, "default": 1 },
+    "occurred_at": { "type": "string", "format": "date-time" },
+    "device_id": { "type": "string", "description": "Opaque device nonce; not a child name" },
+    "payload": { "type": "object" }
+  },
+  "additionalProperties": false
+}

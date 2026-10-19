@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://indigloo.co/schemas/lesson.schema.json",
+  "title": "AI Mentor lesson",
+  "description": "One curriculum lesson. board defaults to CBSE for the pilot (ADR 0005). grade must lie within the band range in bands.json (ADR 0006).",
+  "type": "object",
+  "required": ["id", "band", "grade", "subject", "title", "board", "text", "answer", "hints"],
+  "additionalProperties": true,
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "band": { "type": "string", "enum": ["koko", "nova", "principal"] },
+    "grade": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 12,
+      "description": "0 = kindergarten (TBD encoding, O16); 1–12 = school grades. Must fall in band range."
+    },
+    "board": {
+      "type": "string",
+      "enum": ["CBSE"],
+      "default": "CBSE",
+      "description": "Pilot board only (ADR 0005)."
+    },
+    "subject": { "type": "string" },
+    "title": { "type": "string" },
+    "kw": { "type": "string" },
+    "text": { "type": "string" },
+    "answer": {
+      "type": "object",
+      "required": ["en", "hi"],
+      "properties": {
+        "en": { "type": "string" },
+        "hi": { "type": "string" }
+      }
+    },
+    "hints": {
+      "type": "object",
+      "required": ["en", "hi"],
+      "properties": {
+        "en": { "type": "array", "items": { "type": "string" } },
+        "hi": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "example": {
+      "type": "object",
+      "properties": {
+        "en": { "type": "string" },
+        "hi": { "type": "string" }
+      }
+    },
+    "quiz": { "type": "object" },
+    "activity": { "type": "object" },
+    "source": { "type": "object" },
+    "minutes": { "type": "number" },
+    "chapter_ref": { "type": "string" },
+    "concept_id": { "type": "string" },
+    "review": {
+      "type": "object",
+      "properties": {
+        "status": { "type": "string", "enum": ["illustrative", "in_review", "approved"] },
+        "reviewer_role": { "type": "string" },
+        "reviewed_at": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}

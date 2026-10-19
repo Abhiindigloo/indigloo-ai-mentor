@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {retrieve,initialState,recordAttempt,buildPrompt,lessonReply} from './core.mjs';
+const lessons=JSON.parse(await readFile(new URL('../../packages/curriculum/curriculum.json',import.meta.url)));
+assert.equal(lessons.length,15);
+for(const doc of lessons)for(const lang of ['en','hi'])for(const mode of ['hint','answer','simple','steps','activity','example'])assert.ok(lessonReply(doc,lang,mode).length>0);
+const leaf=retrieve('Why are leaves green?',lessons,'nova',null).doc;
+assert.equal(leaf.id,'green-leaves');
+assert.equal(retrieve('Who won the 2011 cricket world cup?',lessons,'nova',leaf.id).doc,null);
+assert.equal(retrieve('explain it again',lessons,'nova',leaf.id).doc.id,leaf.id);
+assert.equal(retrieve('explain it again',lessons,'koko',leaf.id).doc,null);
+const state=recordAttempt(initialState(),leaf,leaf.quiz.correct,'attempt-1',1000);
+assert.equal(state.progress[leaf.id].correct,1);
+assert.equal(state.progress[leaf.id].reviewAt,86401000);
+assert.deepEqual(recordAttempt(state,leaf,leaf.quiz.correct,'attempt-1',1000),state);
+assert.ok(new TextEncoder().encode(buildPrompt(leaf,'Why are leaves green?','en')).length<=1800);
+console.log('PASS: bilingual content, retrieval, follow-up isolation, quiz idempotency, revision and prompt bounds.');

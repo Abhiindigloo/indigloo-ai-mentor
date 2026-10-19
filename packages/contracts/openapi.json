@@ -1,0 +1,664 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Indigloo AI Mentor API",
+    "description": "Contract-first OpenAPI for the AI Mentor FastAPI service. Hand-authored skeleton: existing paths plus model catalogue. Server implementation may lag; CI will later enforce drift checks.",
+    "version": "0.2.0"
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Health",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/capabilities": {
+      "get": {
+        "summary": "Capabilities",
+        "operationId": "capabilities_v1_capabilities_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/auth/register": {
+      "post": {
+        "summary": "Register",
+        "operationId": "register_v1_auth_register_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Credentials"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/auth/login": {
+      "post": {
+        "summary": "Login",
+        "operationId": "login_v1_auth_login_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Credentials"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/auth/logout": {
+      "post": {
+        "summary": "Logout",
+        "operationId": "logout_v1_auth_logout_post",
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/v1/me": {
+      "get": {
+        "summary": "Me",
+        "operationId": "me_v1_me_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      "delete": {
+        "summary": "Erase",
+        "operationId": "erase_v1_me_delete",
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/v1/lessons": {
+      "get": {
+        "summary": "Lessons",
+        "operationId": "lessons_v1_lessons_get",
+        "parameters": [
+          {
+            "name": "band",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "koko",
+                    "nova",
+                    "principal"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Band"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/sessions": {
+      "post": {
+        "summary": "Create Session",
+        "operationId": "create_session_v1_sessions_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SessionInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/v1/sessions/{session_id}/messages": {
+      "get": {
+        "summary": "Messages",
+        "operationId": "messages_v1_sessions__session_id__messages_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Session Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/chat": {
+      "post": {
+        "summary": "Chat",
+        "operationId": "chat_v1_chat_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/v1/progress": {
+      "get": {
+        "summary": "Progress",
+        "operationId": "progress_v1_progress_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/v1/models/catalog": {
+      "get": {
+        "summary": "On-device model catalogue",
+        "description": "Returns downloadable on-device models matching age band, board, language and device RAM. No user identifiers; do not log request params with account ids (ADR 0004).",
+        "operationId": "getModelCatalog",
+        "parameters": [
+          {
+            "name": "age_band",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "koko",
+                "nova",
+                "principal"
+              ]
+            }
+          },
+          {
+            "name": "board",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "CBSE"
+              ]
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "en",
+                "hi"
+              ],
+              "default": "en"
+            }
+          },
+          {
+            "name": "device_ram_mb",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 512
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Matching catalogue entries (may be empty if RAM too low)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelCatalogResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error (unknown board/band)"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ChatInput": {
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "maxLength": 36,
+            "title": "Session Id"
+          },
+          "question": {
+            "type": "string",
+            "maxLength": 600,
+            "minLength": 1,
+            "title": "Question"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "hint",
+              "answer",
+              "example",
+              "steps"
+            ],
+            "title": "Mode",
+            "default": "hint"
+          },
+          "use_model": {
+            "type": "boolean",
+            "title": "Use Model",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "session_id",
+          "question"
+        ],
+        "title": "ChatInput"
+      },
+      "Credentials": {
+        "properties": {
+          "username": {
+            "type": "string",
+            "maxLength": 40,
+            "minLength": 3,
+            "pattern": "^[a-zA-Z0-9_-]+$",
+            "title": "Username"
+          },
+          "password": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 12,
+            "title": "Password"
+          }
+        },
+        "type": "object",
+        "required": [
+          "username",
+          "password"
+        ],
+        "title": "Credentials"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "SessionInput": {
+        "properties": {
+          "band": {
+            "type": "string",
+            "enum": [
+              "koko",
+              "nova",
+              "principal"
+            ],
+            "title": "Band",
+            "default": "nova"
+          },
+          "lang": {
+            "type": "string",
+            "enum": [
+              "en",
+              "hi"
+            ],
+            "title": "Lang",
+            "default": "en"
+          }
+        },
+        "type": "object",
+        "title": "SessionInput"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "ModelCatalogEntry": {
+        "type": "object",
+        "required": [
+          "model_id",
+          "version",
+          "url",
+          "size_bytes",
+          "sha256",
+          "licence",
+          "runtime",
+          "min_ram_mb"
+        ],
+        "properties": {
+          "model_id": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "size_bytes": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "licence": {
+            "type": "object",
+            "required": [
+              "id",
+              "url"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string",
+                "format": "uri"
+              }
+            }
+          },
+          "runtime": {
+            "type": "string",
+            "enum": [
+              "litertlm"
+            ]
+          },
+          "min_ram_mb": {
+            "type": "integer",
+            "minimum": 512
+          },
+          "age_band": {
+            "type": "string",
+            "enum": [
+              "koko",
+              "nova",
+              "principal"
+            ]
+          },
+          "board": {
+            "type": "string",
+            "enum": [
+              "CBSE"
+            ]
+          }
+        }
+      },
+      "ModelCatalogResponse": {
+        "type": "object",
+        "required": [
+          "models"
+        ],
+        "properties": {
+          "models": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ModelCatalogEntry"
+            }
+          },
+          "catalog_version": {
+            "type": "string"
+          },
+          "signature": {
+            "type": "string",
+            "description": "Optional signed manifest (mechanism TBD, O6)"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

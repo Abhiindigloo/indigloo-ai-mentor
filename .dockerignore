@@ -1,0 +1,12 @@
+.git
+.github
+.env
+**/node_modules
+**/__pycache__
+**/.pytest_cache
+.venv
+apps/android
+training
+docs
+**/*.test.mjs
+services/api/data
